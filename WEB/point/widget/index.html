@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gamification Manager</title>
+
+  <!-- Bootstrap stylesheet import -->
+  <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+  <!-- import jQuery for AJAX calls -->
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+  <!-- Inter Widget Communication library import-->
+  <script type="text/javascript" src="http://dbis.rwth-aachen.de/gadgets/iwc/lib/iwc.js"></script>
+  <!-- import the client library -->
+  <script type="text/javascript" src="http://localhost:8080/widget/point/js/las2peerWidgetLibrary.js"></script>
+  <!-- import application script -->
+  <script type="text/javascript" src="http://localhost:8080/widget/point/js/applicationScript.js"></script>
+  <!-- style information -->
+  <link rel="stylesheet" href="http://localhost:8080/widget/point/css/style.css">
+  <link href="http://localhost:8080/widget/point/css/jquery.bootgrid.min.css" rel="stylesheet">
+
+	  <!-- import client library for service -->
+  	<script type="text/javascript" src="http://localhost:8080/widget/point/js/client.js"></script>
+	<script type="text/javascript" src="http://localhost:8080/widget/point/js/gamification/gamemanagerui.js"></script>
+	<script type="text/javascript" src="http://localhost:8080/widget/point/js/gamification/point.js"></script>
+	<script type="text/javascript" src="http://localhost:8080/widget/point/js/gamification/gamificationelements.js"></script>
+
+	<script type="text/javascript" src="http://localhost:8080/widget/point/js/bootstrap-notify.min.js"></script>
+	<script type="text/javascript" src="http://localhost:8080/widget/point/js/jquery.bootgrid.js"></script>
+	<script type="text/javascript" src="http://localhost:8080/widget/point/js/jquery.bootgrid.fa.min.js"></script>
+	
+ 
+</head>
+<body>
+   
+<div class="container-fluid" >
+
+	<h3>Gamification-Framework-Point</h3>
+	<div class="row  text-right">
+		<div class="container-fluid">
+			<h4>App ID Context :  </h4>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			 	<div class="panel panel-default">
+					<div class="panel-heading"><b>Point Unit Name</b></div>
+					      <div class="panel-body">
+								  			
+					      	 <form id="point_id_container">
+					      	 		<b><h4 class="form-control-static text-center" id="level_point_id_static"></h4></b>
+								    <br>
+								    <div class="form-group">
+										<div class="col-sm-12">
+								  			<div class="input-group">
+								      			<input type="text" class="form-control" placeholder="Unit name" id="level_point_id" name="levelpointid">
+												<span class="input-group-btn">
+								      				<button class="btn btn-secondary" type="button" id="select_point" data-toggle="collapse" data-target="#panel_point" aria-expanded="false" aria-controls="panel_point">Submit</button>		
+								    			</span>
+								      
+							    			</div>
+									  	</div>
+									</div> 
+							</form> 
+				      </div>
+				</div>
+
+		</div>
+		<div class="col-md-0">
+		</div>
+	</div>
+</div>
+
+
+
+</body>
+</html>

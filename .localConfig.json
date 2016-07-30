@@ -1,0 +1,5 @@
+{
+    "baseUrl" : "https://dl.dropboxusercontent.com/u/57683747/widget",
+    "roleSandboxUrl": "http://127.0.0.1:8073",
+    "endPointServiceURL": "http://127.0.0.1:8081/"
+}
