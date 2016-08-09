@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Video Player</title>
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <!-- Bootstrap stylesheet import -->
+  <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <!-- own style information -->
+  <link rel="stylesheet" href="http://CAE-Community-Application-Editor.github.io/frontendComponent-Video-Player-Widget/css/style.css">
+
+  <!-- import jQuery for AJAX calls -->
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <!-- import Bootstrap for responsive UI -->
+  <script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+  <!-- OpenApp import -->
+  <!-- <script type="text/javascript" src="http://open-app.googlecode.com/files/openapp.js"></script> -->
+  <!-- inter widget communication library import -->
+  <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/57683747/connector/js/lib/iwc.js"></script>
+  <!-- import the client library -->
+  <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/57683747/connector/js/lib/las2peerWidgetLibrary.js"></script>
+  <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/57683747/connector/js/lib/lodash.js"></script>
+  <!-- import application script -->
+  <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/57683747/connector/js/applicationScript.js"></script>
+  
+</head>
+<body>
+
+  <!-- container for actual page content -->
+  <div class="container" id="main-content">
+    <table class="table table-striped table-bordered table-hover" id='relation'>
+<!--     <thead>
+      <tr>
+        <th>App ID</th>
+        <th>Description</th>
+        <th>Community Type</th>
+    </thead> -->
+
+    <tbody>
+    </tbody>
+    </table>
+    <div class="row">
+      <div class="col-md-5">
+        <!-- Action list -->
+      </div>
+
+      <div class="col-md-2">
+      </div>
+
+      <div class="col-md-5">
+        <!-- Action list -->
+        <button id="json">Download JSON</button>
+      </div>
+    </div>
+  
+  </div>
+</body>
+</html>
