@@ -37,8 +37,8 @@
 
     <!-- Bootstrap core CSS -->
   <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-  <link rel="stylesheet" href="https://dl.dropboxusercontent.com/u/57683747/visualization/css/font-awesome.css">
-<link href="https://dl.dropboxusercontent.com/u/57683747/visualization/css/vis.css" rel="stylesheet"> 
+  <link rel="stylesheet" href="http://CAE-Gamified.github.io/Gamification-Framework-Frontend/visualization/css/font-awesome.css">
+<link href="http://CAE-Gamified.github.io/Gamification-Framework-Frontend/visualization/css/vis.css" rel="stylesheet"> 
 
   </head>
 
@@ -347,7 +347,7 @@
 </div><!--/row-offcanvas -->
 <div id="modalspinner" style="display: none">
     <div class="center">
-        <img alt="" src="https://dl.dropboxusercontent.com/u/57683747/visualization/img/loading.svg" />
+        <img alt="" src="http://CAE-Gamified.github.io/Gamification-Framework-Frontend/visualization/img/loading.svg" />
     </div>
 </div> 
     <!-- Bootstrap core JavaScript
@@ -363,13 +363,13 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.fa.min.js"></script>
 
-  <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/57683747/visualization/js/iwc.js"></script> 
-  <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/57683747/visualization/js/oidc-widget.js"></script> 
-  <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/57683747/visualization/js/las2peerWidgetLibrary.js"></script> 
-  <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/57683747/visualization/js/circle-progress.js"></script> 
-<!--   <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/57683747/visualization/js/client.js"></script>  -->
-    <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/57683747/visualization/js/gamification-framework.js"></script> 
-    <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/57683747/visualization/js/vis.js"></script> 
+  <script type="text/javascript" src="http://CAE-Gamified.github.io/Gamification-Framework-Frontend/visualization/js/iwc.js"></script> 
+  <script type="text/javascript" src="http://CAE-Gamified.github.io/Gamification-Framework-Frontend/visualization/js/oidc-widget.js"></script> 
+  <script type="text/javascript" src="http://CAE-Gamified.github.io/Gamification-Framework-Frontend/visualization/js/las2peerWidgetLibrary.js"></script> 
+  <script type="text/javascript" src="http://CAE-Gamified.github.io/Gamification-Framework-Frontend/visualization/js/circle-progress.js"></script> 
+<!--   <script type="text/javascript" src="http://CAE-Gamified.github.io/Gamification-Framework-Frontend/visualization/js/client.js"></script>  -->
+    <script type="text/javascript" src="http://CAE-Gamified.github.io/Gamification-Framework-Frontend/visualization/js/gamification-framework.js"></script> 
+    <script type="text/javascript" src="http://CAE-Gamified.github.io/Gamification-Framework-Frontend/visualization/js/vis.js"></script> 
 
  </body>
 </html>
