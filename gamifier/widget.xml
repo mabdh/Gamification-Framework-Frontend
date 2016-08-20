@@ -56,16 +56,17 @@
   <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/57683747/connector/js/lib/lodash.js"></script>
   <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/57683747/connector/js/lib/oidc-widget.js"></script>
   <!-- import application script -->
+  <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/57683747/connector/js/lib/FileSaver.js"></script>
   <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/57683747/connector/js/client.js"></script>
   <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/57683747/connector/js/applicationScript.js"></script>
-  
+  <script src="https://cdn.rawgit.com/beautify-web/js-beautify/v1.6.3/js/lib/beautify.js"></script>
 </head>
 <body>
 
   <!-- container for actual page content -->
   <div class="container" id="login-text">
   <h4>
-    You are not authenticated, try to login using Open ID Learning Layers.
+    Loading...
   </h4>
   </div>
   <div class="container" id="main-content">
@@ -91,19 +92,16 @@
     <div class="form-group">
       <input type="text" class="form-control" id="appid" placeholder="App ID">
     </div>
-     <div class="btn-group btn-group-justified">
+    <div class="btn-group btn-group-justified">
       <div class="btn-group">
-        <button id="load-data" class="btn btn-default">Load</button>
+        <button id="load-data" class="btn btn-default">Load Data</button>
       </div>      
+<!--       <div class="btn-group">
+        <button id="generate-json" class="btn btn-default">Generate</button>
+      </div> -->
       <div class="btn-group">
-        <button id="generate-data" class="btn btn-default">Generate</button>
+        <button id="generate-repo" class="btn btn-default">Generate Repository</button>
       </div>
-<!--       <div class="btn-group">
-        <button id="store-data" class="btn btn-default">Submit</button>
-      </div> -->
-<!--       <div class="btn-group">
-        <button id="clear-data" class="btn btn-default">Reset</button>
-      </div> -->
     </div>
     <br>
     <div class="form-group">

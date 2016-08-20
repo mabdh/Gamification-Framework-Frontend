@@ -37,7 +37,8 @@ var client,
     eventdata = [],
     actiondata = [],
     feedbackTimeout,
-    loadedModel = null;
+    loadedModel = null,
+    repoName;
     
 var init = function() {
   var iwcCallback = function(intent) {
@@ -53,8 +54,13 @@ var init = function() {
       feedback("App ID is not defined");
     }
   });
-  $('#generate-data').on('click', function() {
-    generateData();
+  // $('#generate-json').on('click', function() {
+  //   var generatedJSON = generateJSON();
+  //   saveJSONfile(generatedJSON);
+  // });
+  $('#generate-repo').on('click', function() {
+    var generatedJSON = generateJSON();
+    generateJSfile(generatedJSON);
   });
   // $('#clear-data').on('click', function() {
   //   resetCurrentModel();
@@ -90,7 +96,7 @@ function signinCallback(result) {
     }
 }
 
-function generateData(){
+function generateJSON(){
   // input validation
   var relRows = $("#relation").find("tbody tr");
   console.log(relRows);
@@ -110,15 +116,20 @@ function generateData(){
     }
 
   });
-  if(arr.length > 0){
-     var link = document.createElement('a');
-      link.download = "gamifier.json";
-      link.href = 'data:,' + encodeURI(JSON.stringify(arr, null, 4));
-      link.click();
-  }
+  
   console.log(JSON.stringify(arr));
+  return arr;
   // data preparation
   // file generation
+}
+
+function saveJSONfile(generatedJSON){
+  if(generatedJSON.length > 0){
+     var link = document.createElement('a');
+      link.download = "gamifier.json";
+      link.href = 'data:,' + encodeURI(JSON.stringify(generatedJSON, null, 4));
+      link.click();
+  }
 }
 
 function loadData(){
@@ -131,13 +142,56 @@ function loadData(){
   });
 }
 
-function getActionData(){
+var getActionData = function(){
   var endPointURL = epURL + "gamification/actions/" + appId;
   var query = "?current=1&rowCount=-1&searchPhrase=";
   return $.get(useAuthentication(endPointURL+query));
-}
+};
 
-function renderTable(actiondata,eventdata){
+var getModelData = function() {
+  var d = $.Deferred();
+    openapp.resource.get(openapp.param.space(), (function(space){
+      console.log("Space " + JSON.stringify(space));
+      var resourceUri, resourceObj, values;
+      var listOfDataUris = [];
+      for(resourceUri in space.data){
+        if(space.data.hasOwnProperty(resourceUri)){
+          resourceObj = space.data[resourceUri];
+          if(resourceObj['http://www.w3.org/1999/02/22-rdf-syntax-ns#type'] &&
+              _.isArray(resourceObj['http://www.w3.org/1999/02/22-rdf-syntax-ns#type'])){
+
+            values = _.map(resourceObj['http://www.w3.org/1999/02/22-rdf-syntax-ns#type'],function(e){
+              return e.value;
+            });
+
+            if(_.contains(values,"http://purl.org/role/terms/Data") && _.contains(values,"my:ns:model")){
+              listOfDataUris.push(resourceUri);
+            }
+
+          }
+        }
+      }
+      console.log("List " + listOfDataUris);
+      if(listOfDataUris.length > 0){
+        
+      
+          $.get(listOfDataUris[0]+"/:representation").done(function(data){
+                   // add name, version and type to model
+           //console.log("MODEL :" + JSON.stringify(data));
+           // COLLECT HTML ELEMENT - EVENTS AND EVENTS - FUNCTIONS RELATIONS
+             processJSONdata(d,data);
+            
+         });
+       }else {
+         feedback("No model!");
+         d.reject();
+       }
+
+    })); 
+    return d.promise();
+};
+
+var renderTable = function(actiondata,eventdata){
     console.log("JDATA " + JSON.stringify(eventdata));
     console.log("ADATA " + JSON.stringify(actiondata));
   if(actiondata.length > 0 && eventdata.length > 0){
@@ -146,8 +200,10 @@ function renderTable(actiondata,eventdata){
 
     var newRow;
      $("table#relation").find("tbody").empty();
+     console.log("EVENT LENGTH " + eventdata.length);
+     newRow = "";
     for(var i = 0; i < eventdata.length; i++){
-      newRow = "<tr>";
+      newRow += "<tr>";
       newRow += "<td class='eltype'>"+eventdata[i].eltype+"</td>";
       newRow += "<td class='elidname'>"+eventdata[i].elidname+"</td>";
       newRow += "<td class='eventCause'>"+eventdata[i].eventCause+"</td>";
@@ -171,9 +227,9 @@ function renderTable(actiondata,eventdata){
   else{
     feedback("Failed to  render table");
   }
-}
+};
 
-function tableListener(){
+var tableListener = function(){
   $("table#relation").find("tbody").on("click",".dropdown-menu li",function(e){
     var action = $(e.target).html();
     console.log("Action selected : " + action);
@@ -194,9 +250,9 @@ function tableListener(){
       $(node).html("");
     });
   });
-}
+};
 
-function simplifyJSONdata(jsondata){
+var simplifyJSONdata = function(jsondata){
   var resArray = [];
   _.forEach(jsondata, function(data){
     var resObj = {};
@@ -231,11 +287,16 @@ function simplifyJSONdata(jsondata){
     resArray.push(resObj);
   });
   return resArray;
-}
+};
 
-function processJSONdata(def,data){
+var processJSONdata = function(def,data){
 
   var html2event = [], event2function = [];
+  
+  repoName = data.attributes.label.value.value;
+  repoName = repoName.replace(/ /g,"-");
+  repoName = "frontendComponent-" + repoName;
+  console.log("REPONAME : " + repoName);
 
   console.log("E2F ");
   for (var key in data.edges) {
@@ -359,229 +420,101 @@ function processJSONdata(def,data){
     def.reject();
   }
   return false;
-}
-
-// deletes the current model (empties the current model of this space)
-// var resetCurrentModel = function() {
-//   $("#name").val("");
-//   $("#version").val("");
-//   getData("my:ns:model").then(function(modelUris){
-//     if(modelUris.length > 0){
-//       _.map(modelUris,function(uri){
-//         openapp.resource.del(uri,function(){
-//           loadedModel = null;
-//           feedback("Model reset, please refresh browser!");
-//         });
-//       });
-//     } else {
-//       feedback("No model!");
-//     }
-//   });
-// };
-
-
-
-var getModelData = function() {
-  var d = $.Deferred();
-    openapp.resource.get(openapp.param.space(), (function(space){
-      console.log("Space " + JSON.stringify(space));
-      var resourceUri, resourceObj, values;
-      var listOfDataUris = [];
-      for(resourceUri in space.data){
-        if(space.data.hasOwnProperty(resourceUri)){
-          resourceObj = space.data[resourceUri];
-          if(resourceObj['http://www.w3.org/1999/02/22-rdf-syntax-ns#type'] &&
-              _.isArray(resourceObj['http://www.w3.org/1999/02/22-rdf-syntax-ns#type'])){
-
-            values = _.map(resourceObj['http://www.w3.org/1999/02/22-rdf-syntax-ns#type'],function(e){
-              return e.value;
-            });
-
-            if(_.contains(values,"http://purl.org/role/terms/Data") && _.contains(values,"my:ns:model")){
-              listOfDataUris.push(resourceUri);
-            }
-
-          }
-        }
-      }
-      console.log("List " + listOfDataUris);
-      if(listOfDataUris.length > 0){
-        
-      
-          $.get(listOfDataUris[0]+"/:representation").done(function(data){
-                   // add name, version and type to model
-           //console.log("MODEL :" + JSON.stringify(data));
-           // COLLECT HTML ELEMENT - EVENTS AND EVENTS - FUNCTIONS RELATIONS
-             processJSONdata(d,data);
-            
-         });
-       }else {
-         feedback("No model!");
-         d.reject();
-       }
-
-    })); 
-    return d.promise();
 };
 
-// retrieves the JSON representation of this space
-// var storeModel = function() {
-//   if($("#name").val().length == 0 || $("#version").val().length == 0){
-//     feedback("Please choose frontend component name & version!");
-//     return;
-//   }
-//   if(isNaN($("#version").val())){
-//     feedback("Version has to be a number!");
-//     return;
-//   }
-//   getData("my:ns:model").then(function(modelUris){
-//       if(modelUris.length > 0){
-//         $.get(modelUris[0]+"/:representation").done(function(data){
-//           // add name, version and type to model
-//           data.attributes.label.value.value = $("#name").val();
-//           data.attributes.attributes[generateRandomId()] = generateAttribute("version", $("#version").val());
-//           data.attributes.attributes[generateRandomId()] = generateAttribute("type", "frontend-component");
-//           if(loadedModel === null){
-//             client.sendRequest("POST", "", JSON.stringify(data), "application/json", {},
-//             function(data, type) {
-//               // save currently loaded model
-//               loadedModel = $("#name").val();
-//               console.log("Model stored!");
-//               feedback("Model stored!");
-//             },
-//             function(error) {
-//               console.log(error);
-//               feedback(error);
-//             });
-//           }
-//           else{
-//             client.sendRequest("PUT", loadedModel, JSON.stringify(data), "application/json", {},
-//             function(data, type) {
-//               console.log("Model updated!");
-//               feedback("Model updated!");
-//             },
-//             function(error) {
-//               console.log(error);
-//               feedback(error);
-//             });            
-//           }
-//         });
-//       } else {
-//         feedback("No model!");
-//       }
-//   });
-// };
+function generateJSfile(generatedJSON){
+  // Get frontendcomponent repo name
+  // Post and push to github
+  var URL_aop_library = "https://dl.dropboxusercontent.com/u/57683747/CAE-Example/whiteboard/gamification/aop.pack.js";
+  var URL_oidc_widget = "https://dl.dropboxusercontent.com/u/57683747/CAE-Example/whiteboard/gamification/oidc-widget.js";
 
-// loads the model from a given JSON file and sets it as the space's model
-// var loadModel = function() {
-//   if($("#name").val().length == 0){
-//     feedback("Please choose model name!");
-//     return;
-//   }
-//   // first, clean the current model
-//   getData("my:ns:model").then(function(modelUris){
-//     if(modelUris.length > 0){
-//       _.map(modelUris,function(uri){
-//         openapp.resource.del(uri);
-//       });
-//     }
-//     // now read in the file content
-//     modelName = $("#name").val();
-//     client.sendRequest("GET", modelName, "", "", {},
-//     function(data, type) {
-//       console.log("Model loaded!");
-//       resourceSpace.create({
-//         relation: openapp.ns.role + "data",
-//         type: "my:ns:model",
-//         representation: data,
-//         callback: function(){
-//           feedback("Model loaded, please refresh browser!");
-//         }
-//       });
-//     },
-//     function(error) {
-//       console.log(error);
-//       feedback(error);
-//     });
+  var aopScript = "";
 
-//   });
-// };
+  _.forEach(generatedJSON,function(JSONdata){
+    aopScript += "\
+      $.aop.after( {target: window, method: '"+ JSONdata.functionName +"'},\
+        function() { \
+          advice('"+ JSONdata.action +"');\
+        }\
+      );"
+  });
+
+  // var mainScript = "\
+  // var memberId, appId = '';\
+  // var advice = function(actionId){\
+  //    $.post(\
+  //   '" + epURL + "visualization/actions/'+appId+'/'+actionId+'/'+memberId,\
+  //   '',\
+  //   function(data, status){\
+  //     console.log('Trigger success : ' + actionId);\
+  //   });\
+  // };\
+  // var initGamification = function(){\
+  //   " + aopScript + "\
+  // };\
+  // function signInCallback(result){\
+  //   if(result === 'success'){\
+  //     memberId = oidc_userinfo.preferred_username;\
+  //       console.log(oidc_userinfo);\
+  //       console.log('Logged in!');\
+  //       initGamification();\
+  //   } else {\
+  //       console.log(result);\
+  //       console.log(window.localStorage['access_token']);\
+  //   }\
+  // }\
+  // function loadScript(url, callback){\
+  //     var head = document.getElementsByTagName('head')[0];\
+  //     var script = document.createElement('script');\
+  //     script.type = 'text/javascript';\
+  //     script.src = url;\
+  //     script.onreadystatechange = callback;\
+  //     script.onload = callback;\
+  //     head.appendChild(script);\
+  // }\
+  // function loadAOPLibrary(callback){\
+  //   loadScript('" + URL_aop_library + "',callback);\
+  // }\
+  // function loadOIDCWidget(){\
+  //   loadScript('" + URL_oidc_widget + "',loadLibraryCallback);\
+  // }\
+  // function loadLibraryCallback(){\
+  //   console.log('success load library');\
+  // }\
+  // $(document).ready(function () {\
+  //   loadAOPLibrary(loadOIDCWidget);\
+  // });";
+
+
+  // mainScript = js_beautify(mainScript, { indent_size: 2 });
+  aopScript = js_beautify(aopScript, { indent_size: 2 });
+
+  // post to github
+  var dataJSON = {
+    originRepositoryName: repoName, 
+    appId : appId,
+    epURL : epURL,
+    aopScript : aopScript
+  };
+  $("#status").val("Uploading files...");
+  var dataJSON = JSON.stringify(dataJSON); 
+  $.post(
+    useAuthentication(epURL + "gamification/applications/repo"),
+    dataJSON,
+    function(data, status){
+      console.log("Github upload success");
+      feedback("Github upload success");
+      //   var blob = new Blob([mainScript], {type: "text/plain;charset=utf-8"});
+      // saveAs(blob, "gamifier.js");
+    });
+
+}
+
+
 
 $(document).ready(function() {
 });
 
-/******************* Helper Functions ********************/
-
-// function that retrieves the model of the current space
-// var getData = function(type){
-//   var spaceUri = openapp.param.space(),
-//       listOfDataUris = [],
-//       promises = [],
-//       mainDeferred = $.Deferred(),
-//       deferred = $.Deferred();
-
-//   openapp.resource.get(spaceUri,(function(deferred){
-    
-//     return function(space){
-//       var resourceUri, resourceObj, values;
-//       for(resourceUri in space.data){
-//         if(space.data.hasOwnProperty(resourceUri)){
-//           resourceObj = space.data[resourceUri];
-//           if(resourceObj['http://www.w3.org/1999/02/22-rdf-syntax-ns#type'] &&
-//               _.isArray(resourceObj['http://www.w3.org/1999/02/22-rdf-syntax-ns#type'])){
-
-//             values = _.map(resourceObj['http://www.w3.org/1999/02/22-rdf-syntax-ns#type'],function(e){
-//               return e.value;
-//             });
-
-//             if(_.contains(values,"http://purl.org/role/terms/Data") && _.contains(values,type)){
-//               listOfDataUris.push(resourceUri);
-//             }
-
-//           }
-//         }
-//       }
-//       deferred.resolve();
-//     };
-
-//   })(deferred));
-//   promises.push(deferred.promise());
-
-//   $.when.apply($,promises).then(function(){
-//     mainDeferred.resolve(listOfDataUris);
-//   });
-
-//   return mainDeferred.promise();
-// };
-
-// // needed to add attributes to the model
-// var generateRandomId = function(){
-//   var chars = "1234567890abcdef";
-//   var numOfChars = chars.length;
-//   var i, rand;
-//   var id = "";
-//   length = 24;
-//   for(i = 0; i < length; i++){
-//       rand = Math.floor(Math.random() * numOfChars);
-//       id += chars[rand];
-//   }
-//   return id;
-// };
-
-// // generates an attribute according to the SyncMeta specification
-// var generateAttribute = function(name, value){
-//   var attribute = 
-//   {
-//     "name": name,
-//     "id": "modelAttributes[" + name + "]",
-//     "value": {
-//       "name": name,
-//       "id": "modelAttributes[" + name + "]",
-//       "value": value
-//     }
-//   };
-//   return attribute;
-// };
 
 // displays a message in the status box on the screen for the time of "feedbackTimeout"
 feedback = function(msg){
