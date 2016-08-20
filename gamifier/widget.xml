@@ -40,9 +40,7 @@
 
   <!-- Bootstrap stylesheet import -->
   <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-  <!-- own style information -->
-  <link rel="stylesheet" href="http://CAE-Community-Application-Editor.github.io/frontendComponent-Video-Player-Widget/css/style.css">
-
+  
   <!-- import jQuery for AJAX calls -->
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <!-- import Bootstrap for responsive UI -->
@@ -50,15 +48,16 @@
   <!-- OpenApp import -->
   <!-- <script type="text/javascript" src="http://open-app.googlecode.com/files/openapp.js"></script> -->
   <!-- inter widget communication library import -->
-  <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/57683747/connector/js/lib/iwc.js"></script>
+  
+  <script type="text/javascript" src="http://CAE-Gamified.github.io/Gamification-Framework-Frontend/js/lib/iwc.js"></script>
   <!-- import the client library -->
-  <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/57683747/connector/js/lib/las2peerWidgetLibrary.js"></script>
-  <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/57683747/connector/js/lib/lodash.js"></script>
-  <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/57683747/connector/js/lib/oidc-widget.js"></script>
+  <script type="text/javascript" src="http://CAE-Gamified.github.io/Gamification-Framework-Frontend/js/lib/las2peerWidgetLibrary.js"></script>
+  <script type="text/javascript" src="http://CAE-Gamified.github.io/Gamification-Framework-Frontend/s/lib/lodash.js"></script>
+  <script type="text/javascript" src="http://CAE-Gamified.github.io/Gamification-Framework-Frontend/js/lib/oidc-widget.js"></script>
   <!-- import application script -->
-  <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/57683747/connector/js/lib/FileSaver.js"></script>
-  <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/57683747/connector/js/client.js"></script>
-  <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/57683747/connector/js/applicationScript.js"></script>
+  <script type="text/javascript" src="http://CAE-Gamified.github.io/Gamification-Framework-Frontend/js/lib/FileSaver.js"></script>
+  <script type="text/javascript" src="http://CAE-Gamified.github.io/Gamification-Framework-Frontend/js/client.js"></script>
+  <script type="text/javascript" src="http://CAE-Gamified.github.io/Gamification-Framework-Frontend/js/applicationScript.js"></script>
   <script src="https://cdn.rawgit.com/beautify-web/js-beautify/v1.6.3/js/lib/beautify.js"></script>
 </head>
 <body>
